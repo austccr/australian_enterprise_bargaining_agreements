@@ -1,6 +1,3 @@
-# This is a template for a Ruby scraper on morph.io (https://morph.io)
-# including some code snippets below that you should find helpful
-
 require 'scraperwiki'
 require 'mechanize'
 
@@ -116,13 +113,3 @@ INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=100
 
 agent = Mechanize.new
 scrape_index_page_and_next(agent.get(INDEX_URL))
-
-#
-# # An arbitrary query against the database
-# ScraperWiki.select("* from data where 'name'='peter'")
-
-# You don't have to do things with the Mechanize or ScraperWiki libraries.
-# You can use whatever gems you want: https://morph.io/documentation/ruby
-# All that matters is that your final data is written to an SQLite database
-# called "data.sqlite" in the current working directory which has at least a table
-# called "data".
