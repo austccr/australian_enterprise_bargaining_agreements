@@ -73,7 +73,7 @@ end
 def collect_agreement_from_page(agreement_page)
   agreement = new_agreement
   agreement[:reference_number] = agreement_page.uri.path.split('/').last
-  puts "Collecting EBA #{agreement_page[:reference_number]}"
+  puts "Collecting EBA #{agreement[:reference_number]} from #{agreement_page.uri.to_s}"
 
   table = agreement_page.at('#block-system-main')
   agreement[:attached_document_url] = table.at('.field-name-field-fwc-doc-pdf-file a')[:href]
@@ -85,7 +85,7 @@ def collect_agreement_from_page(agreement_page)
   )
 
   ScraperWiki.save_sqlite([:reference_number], agreement)
-  puts "Saved EBA #{agreement_page[:reference_number]}"
+  puts "Saved EBA #{agreement[:reference_number]}"
 end
 
 # INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=100"
