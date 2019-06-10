@@ -86,6 +86,8 @@ def collect_agreement_from_page(agreement_page)
 
   ScraperWiki.save_sqlite([:reference_number], agreement)
   puts "Saved EBA #{agreement[:reference_number]}"
+
+  sleep 0.25
 end
 
 def scrape_index_page(index_page)
@@ -94,13 +96,18 @@ def scrape_index_page(index_page)
   end
 end
 
+def scrape_index_page_and_next(index_page)
+  scrape_index_page(index_page)
+
+  next_link = index_page.links.select {|l| l.text.eql? "next ›" }.pop
+  scrape_index_page_and_next(next_link.click) if next_link
+end
+
 INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=10"
 
 agent = Mechanize.new
 
-index_page = agent.get(INDEX_URL)
-
-scrape_index_page(index_page)
+scrape_index_page_and_next(agent.get(INDEX_URL))
 
 #
 # # An arbitrary query against the database
