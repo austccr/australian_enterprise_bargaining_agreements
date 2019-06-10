@@ -70,6 +70,24 @@ def assign_detail_fields(detail_fields, agreement)
   agreement
 end
 
+def collect_agreement_from_page(agreement_page)
+  agreement = new_agreement
+  agreement[:reference_number] = agreement_page.uri.path.split('/').last
+  puts "Collecting EBA #{agreement_page[:reference_number]}"
+
+  table = agreement_page.at('#block-system-main')
+  agreement[:attached_document_url] = table.at('.field-name-field-fwc-doc-pdf-file a')[:href]
+  agreement[:title] = agreement_page.at('#page-title').text
+
+  agreement = assign_detail_fields(
+    table.at('.entity-fwc-agreement').search('.field'),
+    agreement
+  )
+
+  ScraperWiki.save_sqlite([:reference_number], agreement)
+  puts "Saved EBA #{agreement_page[:reference_number]}"
+end
+
 # INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=100"
 
 agent = Mechanize.new
@@ -81,25 +99,7 @@ agent = Mechanize.new
 # For each | test with first
 # agreement_page = agreement_links.first.click
 
-agreement_page  = agent.get('https://www.fwc.gov.au/document/agreement/AE502436')
-agreement = new_agreement
-
-table = agreement_page.at('#block-system-main')
-
-agreement[:reference_number] = agreement_page.uri.path.split('/').last
-
-puts "Collecting EBA #{agreement_page[:reference_number]}"
-
-agreement[:attached_document_url] = table.at('.field-name-field-fwc-doc-pdf-file a')[:href]
-agreement[:title] = agreement_page.at('#page-title').text
-
-agreement = assign_detail_fields(
-  table.at('.entity-fwc-agreement').search('.field'),
-  agreement
-)
-
-ScraperWiki.save_sqlite([:reference_number], agreement)
-puts "Saved EBA #{agreement_page[:reference_number]}"
+collect_agreement_from_page(agent.get('https://www.fwc.gov.au/document/agreement/AE502436'))
 
 #
 # # An arbitrary query against the database
