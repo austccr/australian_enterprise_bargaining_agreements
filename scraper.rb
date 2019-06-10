@@ -112,10 +112,9 @@ def scrape_index_page_and_next(index_page)
   scrape_index_page_and_next(next_link.click) if next_link
 end
 
-INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=10"
+INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=100"
 
 agent = Mechanize.new
-
 scrape_index_page_and_next(agent.get(INDEX_URL))
 
 #
