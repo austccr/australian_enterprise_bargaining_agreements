@@ -8,13 +8,11 @@ def new_agreement
   {
     reference_number: nil,
     attached_document_url: nil,
-    attached_document_syndicated_url: nil,
     title: nil,
     type: nil,
     code_description: nil,
     created_at: nil,
     modified_at: nil,
-    details: nil,
     publication_id: nil,
     old_pub_code: nil,
     original_dispute_number: nil,
