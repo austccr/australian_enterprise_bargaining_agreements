@@ -88,18 +88,15 @@ def collect_agreement_from_page(agreement_page)
   puts "Saved EBA #{agreement[:reference_number]}"
 end
 
-# INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=100"
+INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=10"
 
 agent = Mechanize.new
 
-# page = agent.get(INDEX_URL)
+index_page = agent.get(INDEX_URL)
 
-# agreement_links = page.links.select {|l| l.text.eql? 'More info' }
-
-# For each | test with first
-# agreement_page = agreement_links.first.click
-
-collect_agreement_from_page(agent.get('https://www.fwc.gov.au/document/agreement/AE502436'))
+index_page.links.select {|l| l.text.eql? 'More info' }.each do |link|
+  collect_agreement_from_page(link.click)
+end
 
 #
 # # An arbitrary query against the database
