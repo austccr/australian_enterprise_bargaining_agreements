@@ -95,6 +95,11 @@ def collect_agreement_from_page(agreement_page)
 end
 
 def scrape_index_page(index_page)
+  puts
+  puts
+  puts "Index page #{index_page.uri.to_s}"
+  puts
+
   index_page.links.select {|l| l.text.eql? 'More info' }.each do |link|
     collect_agreement_from_page(link.click)
   end
