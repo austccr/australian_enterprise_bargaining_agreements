@@ -7,6 +7,7 @@ require 'mechanize'
 def new_agreement
   {
     reference_number: nil,
+    version: 'Not listed',
     url: nil,
     attached_document_url: nil,
     title: nil,
@@ -17,7 +18,6 @@ def new_agreement
     publication_id: nil,
     old_pub_code: nil,
     original_dispute_number: nil,
-    version: nil,
     industry: nil,
     legal_name: nil,
     trading_name: nil,
@@ -31,6 +31,8 @@ def new_agreement
 end
 
 def assign_detail_fields(detail_fields, agreement)
+  return agreement unless detail_fields
+
   detail_fields.map {|f| f.children.map(&:text) }.each do |label, value|
     case label
     when "Agreement Type description: "
@@ -82,7 +84,7 @@ def collect_agreement_from_page(agreement_page)
   agreement[:title] = agreement_page.at('#page-title').text
 
   agreement = assign_detail_fields(
-    table.at('.entity-fwc-agreement').search('.field'),
+    table.at('.entity-fwc-agreement')&.search('.field'),
     agreement
   )
 
