@@ -7,6 +7,7 @@ require 'mechanize'
 def new_agreement
   {
     reference_number: nil,
+    url: nil,
     attached_document_url: nil,
     title: nil,
     type: nil,
@@ -72,6 +73,7 @@ end
 
 def collect_agreement_from_page(agreement_page)
   agreement = new_agreement
+  agreement[:url] = agreement_page.uri.to_s
   agreement[:reference_number] = agreement_page.uri.path.split('/').last
   puts "Collecting EBA #{agreement[:reference_number]} from #{agreement_page.uri.to_s}"
 
