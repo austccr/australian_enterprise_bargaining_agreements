@@ -76,7 +76,7 @@ def collect_agreement_from_page(agreement_page)
   puts "Collecting EBA #{agreement[:reference_number]} from #{agreement_page.uri.to_s}"
 
   table = agreement_page.at('#block-system-main')
-  agreement[:attached_document_url] = table.at('.field-name-field-fwc-doc-pdf-file a')[:href]
+  agreement[:attached_document_url] = table.at('.field-name-field-fwc-doc-pdf-file a')&.[](:href)
   agreement[:title] = agreement_page.at('#page-title').text
 
   agreement = assign_detail_fields(
