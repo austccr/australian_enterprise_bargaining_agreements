@@ -86,8 +86,6 @@ def collect_agreement_from_page(agreement_page)
   )
 
   ScraperWiki.save_sqlite([:reference_number, :version], agreement)
-  puts "Saved EBA #{agreement[:reference_number]}"
-
   sleep 0.25
 end
 
