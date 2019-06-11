@@ -55,9 +55,13 @@ def assign_detail_fields(detail_fields, agreement)
     when "Trading Name: "
       agreement[:trading_name] = value
     when "Created Date: "
-      agreement[:created_at] = Time.parse(value).strftime("%F %H:%M")
+      unless value.eql? "N/A"
+        agreement[:created_at] = Time.parse(value).strftime("%F %H:%M")
+      end
     when "Last Modified Date: "
-      agreement[:modified_at] = Time.parse(value).strftime("%F %H:%M")
+      unless value.eql? "N/A"
+        agreement[:modified_at] = Time.parse(value).strftime("%F %H:%M")
+      end
     when "Matter Title: "
       agreement[:matter_title] = value
     when "Prefixed Print ID: "
