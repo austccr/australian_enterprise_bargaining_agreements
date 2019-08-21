@@ -100,7 +100,14 @@ def scrape_index_page(index_page)
   puts
 
   index_page.links.select {|l| l.text.eql? 'More info' }.each do |link|
-    collect_agreement_from_page(link.click)
+    # Skip if we've already scraped this page
+    # TODO: Check if there is data we can update from the index page listing?
+    if (ScraperWiki.select("* FROM data WHERE url='#{link.href}'").last rescue nil)
+      puts "Skipping #{link.href}, already saved"
+    else
+      puts "Saving: #{link.href}"
+      collect_agreement_from_page(link.click)
+    end
   end
 end
 
