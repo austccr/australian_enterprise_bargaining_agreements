@@ -90,7 +90,7 @@ def collect_agreement_from_page(agreement_page)
   )
 
   ScraperWiki.save_sqlite([:reference_number, :version], agreement)
-  sleep 0.25
+  sleep 0.1
 end
 
 def scrape_index_page(index_page)
