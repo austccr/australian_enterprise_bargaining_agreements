@@ -105,7 +105,6 @@ def scrape_index_page(index_page)
     if (ScraperWiki.select("* FROM data WHERE url='#{link.href}'").last rescue nil)
       puts "Skipping #{link.href}, already saved"
     else
-      puts "Saving: #{link.href}"
       collect_agreement_from_page(link.click)
     end
   end
