@@ -94,10 +94,7 @@ def collect_agreement_from_page(agreement_page)
 end
 
 def scrape_index_page(index_page)
-  puts
-  puts
-  puts "Collecting from index page #{index_page.uri.to_s}, skipping pages already collected"
-  puts
+  puts "Scanning index page #{index_page.uri.to_s}, skipping pages already collected"
 
   index_page.links.select {|l| l.text.eql? 'More info' }.each do |link|
     # Skip if we've already scraped this page
