@@ -1,5 +1,14 @@
 This is a scraper that runs on [Morph](https://morph.io). To get started [see the documentation](https://morph.io/documentation)
 
+## Configuration
+
+Use the env variable `MORPH_START_PAGE` to set which page in the pagination to start
+from:
+
+```
+MORPH_START_PAGE=10 bundle exec ruby scraper.rb
+```
+
 ## Questions
 
 * [x] What about updates?
