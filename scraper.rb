@@ -103,17 +103,28 @@ def scrape_index_page(index_page)
       # puts "Skipping #{link.href}, already saved"
     else
       collect_agreement_from_page(link.click)
+      @pages_with_nothing_new = 0
     end
   end
+
+  puts 'Already collected all records on page' unless @pages_with_nothing_new == 0
 end
 
 def scrape_index_page_and_next(index_page)
+  @pages_with_nothing_new ||= 0
+  @pages_with_nothing_new += 1
   scrape_index_page(index_page)
+
+  if STOP_AFTER && @pages_with_nothing_new == STOP_AFTER
+    puts "Stopping run because scraped #{STOP_AFTER} pages in a row with nothing new to collect"
+    return
+  end
 
   next_link = index_page.links.select {|l| l.text.eql? "next ›" }.pop
   scrape_index_page_and_next(next_link.click) if next_link
 end
 
+STOP_AFTER = ENV['MORPH_STOP_AFTER']&.to_i
 START_PAGE = ENV['MORPH_START_PAGE'] || '0'
 INDEX_URL = "https://www.fwc.gov.au/search/document/agreement?items_per_page=100&page=#{START_PAGE}"
 

@@ -2,6 +2,13 @@ This is a scraper that runs on [Morph](https://morph.io). To get started [see th
 
 ## Configuration
 
+Use the env variable `MORPH_STOP_AFTER_X` to make the scraper stop running after after
+it's been through x number of pages without finding any new records to record.
+
+```
+MORPH_STOP_AFTER=10 bundle exec ruby scraper.rb
+```
+
 Use the env variable `MORPH_START_PAGE` to set which page in the pagination to start
 from:
 
